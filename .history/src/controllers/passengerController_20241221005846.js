@@ -3,7 +3,7 @@ const passengerService= require('../services/passengerService');
 const getPassengerBookings= async(req,res) =>{
 
     try {
-        const bookings=await passengerService.getPassengerBookings(req.user._id);
+        const bookings=await passengerService.getPassengerBookings(req.user_id);
         res.status(201).send({data: bookings,success: true,error: null,messsage: "retrieved passengern bookings"});
     } catch (error) {
         res.status(400).send(error.message);
