@@ -9,7 +9,6 @@ const passengerRoutes = require('./routes/passengerRoutes');
 const { redisClient } = require('./utils/redisClient');
 const mongoose = require('mongoose');
 const cors= require('cors');
-const locationService = require('./services/locationService');
 
 dotenv.config();
 

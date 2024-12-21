@@ -29,7 +29,7 @@ class locationService {
 
   async addDriverLocation(driverId, latitude, longitude) {
     try {
-      const response = await redisClient.sendCommand([
+      const response=await redisClient.sendCommand([
         'GEOADD',
         'drivers',
         longitude.toString(),

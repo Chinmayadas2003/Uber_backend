@@ -11,7 +11,6 @@ const createBooking = (io) => async (req, res) => {
     const driverIds = [];
 
     const nearbyDrivers = await bookingService.findNearbyDrivers(source);
-    console.log(nearbyDrivers);
     for (const driver of nearbyDrivers) {
         const driverSocketId = await locationService.getDriverSocket(driver[0]);
         if (driverSocketId) {

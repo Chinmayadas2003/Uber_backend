@@ -9,7 +9,6 @@ const passengerRoutes = require('./routes/passengerRoutes');
 const { redisClient } = require('./utils/redisClient');
 const mongoose = require('mongoose');
 const cors= require('cors');
-const locationService = require('./services/locationService');
 
 dotenv.config();
 
@@ -21,7 +20,7 @@ const server = http.createServer(app);
 // Initialize Socket.io
 const io = socketIo(server,{
   cors:{
-    origin: "*",
+    origin: "http://127.0.0.1:3000,
     methods:["GET","POST"]
   }
 });
@@ -54,7 +53,7 @@ mongoose
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/bookings', bookingRoutes(io));
-app.use('/api/drivers', driverRoutes);
+// app.use('/api/drivers', driverRoutes);
 app.use('/api/passengers', passengerRoutes(io));
 
 // Start the server
@@ -62,24 +61,15 @@ server.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
 });
 
+// Redis Client Connection Handling
 redisClient.on('connect', () => {
   console.log('Connected to Redis');
 });
 
-io.on('connection', (socket) => {
-    console.log('A user connected');
-  
-    socket.on('registerDriver', async (driverId) => {
-      await locationService.setDriverSocket(driverId, socket.id);
-      console.log("set driver socket");
-    });
-
-  
-    socket.on('disconnect', async () => {
-      console.log('A user disconnected');
-      const driverId = await locationService.getDriverSocket(`driver:${socket.id}`);
-      if (driverId) {
-        await redisClient.del(`driver:${driverId}`);
-      }
-    });
+redisClient.on('error', (err) => {
+  console.error('Redis connection error:', err);
 });
+
+io.on('connection',(socket)=>{
+   socket
+})

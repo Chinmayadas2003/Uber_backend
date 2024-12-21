@@ -1,5 +1,5 @@
 const driverRepository = require('../repositories/driverRepository');
-const locationService = require('./locationService');
+const locationService = require('../services/LocationService');
 
 const updateLocation = async (driverId, { latitude, longitude }) => {
     const lat = parseFloat(latitude);

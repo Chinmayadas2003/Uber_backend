@@ -1,4 +1,4 @@
-const locationService = require('./locationService');
+const locationService = require('./LocationService');
 const bookingRepository = require('../repositories/bookingRepository');
 const { haversineDistance } = require('../utils/distance');
 
@@ -24,8 +24,8 @@ const createBooking = async ({ passengerId, source, destination }) => {
 };
 
 const findNearbyDrivers = async (location, radius = 5) => {
-  const longitude = parseFloat(location.longitude);
-  const latitude = parseFloat(location.latitude);
+  const longitude = parseFloat(location.latitude);
+  const latitude = parseFloat(location.longitude);
 
   // Ensure the radius is a number
   const radiusKm = parseFloat(radius);

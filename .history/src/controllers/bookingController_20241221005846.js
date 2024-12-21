@@ -1,17 +1,15 @@
 const bookingService = require('../services/bookingService');
 const { io } = require('../index');
-const locationService = require('../services/locationService');
+const locationService = require('../services/LocationService');
 
 
 const createBooking = (io) => async (req, res) => {
   try {
     const { source, destination } = req.body;
     const booking = await bookingService.createBooking({ passengerId: req.user._id, source, destination });
-    console.log("create booking api completed");
     const driverIds = [];
 
     const nearbyDrivers = await bookingService.findNearbyDrivers(source);
-    console.log(nearbyDrivers);
     for (const driver of nearbyDrivers) {
         const driverSocketId = await locationService.getDriverSocket(driver[0]);
         if (driverSocketId) {
@@ -19,7 +17,6 @@ const createBooking = (io) => async (req, res) => {
           io.to(driverSocketId).emit('newBooking', { bookingId: booking._id, source, destination, fare: booking.fare });
         }
     }
-    console.log("nearby drivers found");
 
     await locationService.storeNotifiedDrivers(booking._id, driverIds);
     res.status(201).send({data:booking, success: true, error: null, message: "successfully created booking"});

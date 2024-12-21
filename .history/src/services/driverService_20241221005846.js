@@ -1,5 +1,5 @@
 const driverRepository = require('../repositories/driverRepository');
-const locationService = require('./locationService');
+const locationService = require('../services/LocationService');
 
 const updateLocation = async (driverId, { latitude, longitude }) => {
     const lat = parseFloat(latitude);
@@ -14,7 +14,7 @@ const updateLocation = async (driverId, { latitude, longitude }) => {
     // Update driver's location in Redis
     try {
         const res = await locationService.addDriverLocation(driverId, lat, lon);
-        console.log("Response",res);
+        console.log(res);
     } catch(error) {
         console.log(error);
     }

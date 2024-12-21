@@ -29,14 +29,13 @@ class locationService {
 
   async addDriverLocation(driverId, latitude, longitude) {
     try {
-      const response = await redisClient.sendCommand([
+      const response=await redisClient.sendCommand([
         'GEOADD',
         'drivers',
         longitude.toString(),
         latitude.toString(),
         driverId.toString()
       ]);
-      console.log("Added to redis coordinates" )
       return response;
     } catch(error) {
       console.log("Cannot add to redis", error)
