@@ -5,7 +5,9 @@ const authMiddleware = async (req,res,next)=>{
 
     console.log("Inside auth");
     //get token from header in the request
-    const token=req.header('Authorization')?.replace('Bearer','');
+    // Extract token from 'Authorization' header and remove the 'Bearer ' prefix
+    const authHeader = req.header('Authorization');
+    const token = authHeader ? authHeader.replace('Bearer ', '').trim() : null;
 
     //token is not valid, access will be denied
     if(!token){
